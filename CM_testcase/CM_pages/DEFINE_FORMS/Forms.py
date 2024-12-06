@@ -224,3 +224,6 @@ class Forms(Basepage, GetLogger):
         #     self.driver.switch_to.alert.accept()
         # except:
         #     self.get_logger().error("There is no alert message")
+
+        a = (1,2,3)
+        print(a)
