@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  hrm-api:
+    restart: always
+    image: nginx
+    volumes:
+      - redis_data:/data
+
+  tms-api:
+    restart: always
+    image: python
+    command: waitress-serve --port 5050 main:app
+    depends_on:
+      - hrm-api
+    labels:
+      kompose.image-pull-policy: IfNotPresent
+
+volumes:
+  redis_data:
