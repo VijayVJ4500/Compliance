@@ -1,20 +1,45 @@
 version: "3.8"
 
 services:
-  hrm-api:
+networks:
+  app_network:
+    driver: bridge
+  mysql-db:
+    image: mysql:8.9
     restart: always
-    image: nginx
-    volumes:
-      - redis_data:/data
-
-  tms-api:
-    restart: always
-    image: python
-    command: waitress-serve --port 5050 main:app
-    depends_on:
-      - hrm-api
+    ports:
+      - "8000:8080"
+    environment:
+      - MYSQL_USER=common_api
+      - MYSQL_PASSWORD=ipss_db
+      - MYSQL_DB=common_db
     labels:
       kompose.image-pull-policy: IfNotPresent
+  python-api:
+       image: python:3.9
+       restart: always
+       ports:
+         - "8080:8080"
+       deploy:
+         replicas: 2
+       command: python -m http.server 8080
+       depends_on:
+         - mysql-db
 
-volumes:
-  redis_data:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "5000:5000"
+    deploy:
+      replicas: 3
+  node:
+    image: node:14
+    restart: always
+    commands: node server.js
+    networks:
+      - app_network
+
+  cache:
+    image: redis:alpine
+    networks:
+      - app_network
