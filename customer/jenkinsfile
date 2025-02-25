@@ -18,8 +18,7 @@ pipeline {
             steps {
                 echo "Testing.."
                 bat '''
-                python hello.py
-                python hello.py --name=vijay
+                python main.py
                 '''
             }
         }
