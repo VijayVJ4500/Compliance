@@ -8,7 +8,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building.."
-                sh '''
+                bat '''
                 echo "doing build stuff.."
                 '''
             }
@@ -16,7 +16,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo "Testing.."
-                sh '''
+                bat '''
                 echo "doing test stuff..
                 '''
             }
@@ -24,7 +24,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 echo 'Deliver....'
-                sh '''
+                bat '''
                 echo "doing delivery stuff.."
                 '''
             }
