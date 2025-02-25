@@ -1,8 +1,8 @@
 pipeline {
-    agent { 
-        node {
-            label 'jenkins-agent-goes-here'
-            }
+    agent any
+
+    triggers{
+            pollSCM '*/1 * * * *'
       }
     stages {
         stage('Build') {
