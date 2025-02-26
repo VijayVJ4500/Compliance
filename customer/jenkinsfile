@@ -18,6 +18,7 @@ pipeline {
                 python -m pip install greenlet
                 python -m pip install flask
                 python -m pip install flask_sqlalchemy
+                 python -m pip install flask_caching
                 '''
             }
         }
