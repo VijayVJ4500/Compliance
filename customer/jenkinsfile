@@ -11,7 +11,7 @@ pipeline {
                 bat '''
                 cd customer
                 python -m pip install --upgrade pip
-                pip install -r requirements.txt --verbose
+                python -m pip install -r requirements.txt
                 '''
             }
         }
