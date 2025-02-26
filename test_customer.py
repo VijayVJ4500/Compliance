@@ -1,7 +1,7 @@
 import unittest
 from ipss_utils.ipss_test import IpssTestCases
-from Compliance.customer.app import create_app
-from Compliance.customer import config
+from customer.app import create_app
+from customer import config
 
 app = create_app(config.Config)
 
