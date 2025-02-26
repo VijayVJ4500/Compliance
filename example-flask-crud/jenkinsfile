@@ -24,7 +24,7 @@ pipeline {
                 bat '''
                 cd example-flask-crud
                 call venv\\Scripts\\activate
-                python curdapp.py
+                python crudapp.py
                 '''
             }
         }
