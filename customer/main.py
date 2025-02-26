@@ -1,5 +1,5 @@
-from customer.app import create_app
-from customer.config import Config
+from customer.customer.app import create_app
+from customer.customer.config import Config
 
 app = create_app(Config)
 
