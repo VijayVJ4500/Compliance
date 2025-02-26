@@ -1,9 +1,10 @@
 pipeline {
     agent any
 
-    triggers{
-            pollSCM '*/1 * * * *'
-      }
+    triggers {
+        pollSCM '*/1 * * * *'
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -11,7 +12,7 @@ pipeline {
                 bat '''
                 cd customer
                 python -m venv venv
-                venv\\Scripts\\activate
+                call venv\\Scripts\\activate
                 python -m pip install --upgrade pip setuptools wheel
                 python -m pip install -r requirements.txt
                 '''
@@ -22,7 +23,7 @@ pipeline {
                 echo "Testing.."
                 bat '''
                 cd customer
-                venv\\Scripts\\activate
+                call venv\\Scripts\\activate
                 python main.py
                 '''
             }
