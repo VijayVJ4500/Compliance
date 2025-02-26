@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo "Building.."
                 bat '''
-                cd example-flask-curd
+                cd example-flask-crud
                 python -m venv venv
                 call venv\\Scripts\\activate
                 python -m pip install 
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 echo "Testing.."
                 bat '''
-                cd example-flask-curd
+                cd example-flask-crud
                 call venv\\Scripts\\activate
                 python curdapp.py
                 '''
