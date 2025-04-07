@@ -32,19 +32,39 @@ pipeline {
             }
             }
         }
+        post {
+        always {
+            // Publish HTML Report
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'Reports',
+                reportFiles: 'report.html',
+                reportName: 'HTML Report'
+            ])
 
-       stage('Publish Report') {
-             steps {
-                 publishHTML([
-                       reportDir: '.',          // Location of report.html
-                       reportFiles: 'report.html',    // The HTML file name
-                       reportName: 'Test Report',     // Display name in Jenkins UI
-                       keepAll: true,                 // Keep reports for all builds
-                       alwaysLinkToLastBuild: true,   // Link report to latest build
-                       allowMissing: false            // Fail if report is missing
-                ])
-            }
+            // Publish Allure Report
+            allure([
+                includeProperties: false,
+                jdk: '',
+                results: [[path: 'allure-results']]
+            ])
         }
+    
+
+    //    stage('Publish Report') {
+    //          steps {
+    //              publishHTML([
+    //                    reportDir: '.',          // Location of report.html
+    //                    reportFiles: 'report.html',    // The HTML file name
+    //                    reportName: 'Test Report',     // Display name in Jenkins UI
+    //                    keepAll: true,                 // Keep reports for all builds
+    //                    alwaysLinkToLastBuild: true,   // Link report to latest build
+    //                    allowMissing: false            // Fail if report is missing
+    //             ])
+    //         }
+    //     }
 
     }
 }
