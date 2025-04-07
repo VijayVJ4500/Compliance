@@ -6,11 +6,11 @@ from selenium.webdriver.common.by import By
 class Locators:
     # loginpage
 
-    USER_NAME = (By.XPATH, "//input[@id='mui-1']")
-    PASSWORD = (By.XPATH, "//input[@id='mui-2']")
+    USER_NAME = (By.XPATH, "//input[@id=':r2:']")
+    PASSWORD = (By.XPATH, "//input[@id=':r3:']")
     VISIBLE_EYE = (
-        By.XPATH, "//button[@aria-label='toggle password visibility']//*[name()='svg']")
-    SIGNIN = (By.XPATH, "//button[normalize-space()='Log In']")
+        By.XPATH, "/(//*[name()='path'])[1]")
+    SIGNIN = (By.XPATH, "//button[normalize-space()='Login']")
     USERNAME_PASSWORD_REQ_MSG = (By.XPATH,
                                  "//p[@class='MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-v7esy']")
 
