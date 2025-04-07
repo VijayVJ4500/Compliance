@@ -20,9 +20,13 @@ pipeline {
 
         stage('Install Requirements') {
             steps {
-                bat 'venv\\Scripts\\activate && pip install --upgrade pip && pip install -r requirements.txt'
+                bat '''
+                venv\\Scripts\\python.exe -m pip install --upgrade pip
+                venv\\Scripts\\activate && pip install -r requirements.txt
+                '''
             }
         }
+        
 
         stage('Run Pytest and Generate Reports') {
             steps {
