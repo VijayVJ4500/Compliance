@@ -1,60 +1,70 @@
 pipeline {
     agent any
 
+    tools {
+        python 'Python3.10' // Ensure this matches your Jenkins Python installation name
+    }
+
     environment {
-        PYTHON = 'C:\\Users\\vijay\\AppData\\Local\\Programs\\Python\\Python312\\python.exe'
+        ALLURE_HOME = "${tool 'Allur_Home'}"
+        PATH = "${env.PATH}:${env.ALLURE_HOME}/bin"
     }
 
     stages {
-        stage('Check Python') {
+        stage('Install Dependencies') {
             steps {
-                bat '"%PYTHON%" --version'
+                sh 'python -m pip install --upgrade pip'
+                sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Create Virtual Environment') {
+        stage('Run Tests') {
             steps {
-                bat '"%PYTHON%" -m venv venv'
+                // Run your Python test
+                sh 'python all_tests.py'
             }
         }
 
-        stage('Install Requirements') {
+        stage('Generate HTML Report') {
             steps {
-                bat '''
-                venv\\Scripts\\python.exe -m pip install --upgrade pip
-                venv\\Scripts\\activate && pip install -r requirements.txt
-                '''
+                // You need to configure HTML report generation inside your test script or separately
+                publishHTML(target: [
+                    reportDir: 'Reports',
+                    reportFiles: 'index.html',
+                    reportName: 'HTML Report'
+                ])
             }
         }
-        
 
-        stage('Run Pytest and Generate Reports') {
+        stage('Generate Allure Report') {
             steps {
-                withEnv(["PYTHONPATH=hrm_automation"]) {
-                    bat 'venv\\Scripts\\activate && pytest hrm_automation/tests --html=Reports/report.html --self-contained-html --alluredir=allure-results'
-                }
+                sh 'allure generate allure-results -c -o allure-report'
+            }
+        }
+
+        stage('Archive Allure Report') {
+            steps {
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'allure-results']]
+                ])
             }
         }
     }
 
     post {
         always {
-            // Publish HTML Report
-            publishHTML([
-                reportDir: 'Reports',
-                reportFiles: 'report.html',
-                reportName: 'HTML Report',
-                keepAll: true,
-                alwaysLinkToLastBuild: true,
-                allowMissing: true
-            ])
+            junit '**/test-results.xml' // If you’re using JUnit XML (optional)
+            archiveArtifacts artifacts: 'Reports/**', allowEmptyArchive: true
+        }
 
-            // Publish Allure Report
-            allure([
-                includeProperties: false,
-                jdk: '',
-                results: [[path: 'allure-results']]
-            ])
+        failure {
+            echo 'Build failed!'
+        }
+
+        success {
+            echo 'Build completed successfully!'
         }
     }
 }
