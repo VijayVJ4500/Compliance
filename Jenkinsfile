@@ -2,46 +2,45 @@ pipeline {
     agent any
 
     environment {
-        VENV_DIR = 'venv'
+        PYTHON = 'C:\\Users\\vijay\\AppData\\Local\\Programs\\Python\\Python312\\python.exe'
     }
 
     stages {
-        stage('Checkout') {
+        stage('Check Python') {
             steps {
-                git 'https://github.com/VijayVJ4500/Compliance'
+                bat '"%PYTHON%" --version'
             }
         }
 
-        stage('Setup Virtualenv and Install') {
+        stage('Create Virtualenv') {
             steps {
-                bat 'python -m venv %VENV_DIR%'
-                bat '%VENV_DIR%\\Scripts\\activate && pip install -r requirements.txt'
+                bat '"%PYTHON%" -m venv venv'
+            }
+        }
+
+        stage('Install Requirements') {
+            steps {
+                bat '.\\venv\\Scripts\\activate && pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat '%VENV_DIR%\\Scripts\\activate && pytest --html=report.html --self-contained-html'
+                bat '.\\venv\\Scripts\\activate && pytest --html=report.html --self-contained-html'
             }
         }
 
         stage('Publish Report') {
             steps {
                 publishHTML([
-                    reportDir: '.', 
-                    reportFiles: 'report.html', 
+                    reportDir: '.',
+                    reportFiles: 'report.html',
                     reportName: 'Test Report',
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true
                 ])
             }
-        }
-    }
-
-    post {
-        always {
-            cleanWs()
         }
     }
 }
