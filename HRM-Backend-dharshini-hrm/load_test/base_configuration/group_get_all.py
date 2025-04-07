@@ -1,0 +1,45 @@
+# sequence_get_all.py
+
+import time
+from concurrent.futures import ThreadPoolExecutor
+from ipss_utils.ipss_test import IpssTestCases
+from load_test import headers
+import requests
+
+
+class groupget(IpssTestCases):
+    def __init__(self, driver):
+        self.driver = driver
+
+    def load_test_concurrent_get_requests(self, num_requests=100, num_threads=10):
+        """
+        Perform a load test for fetching sequence configurations concurrently.
+
+        Args:
+            num_requests (int): Total number of requests to send.
+            num_threads (int): Number of concurrent threads.
+        """
+        url = "https://ipssapi.techgenzi.com/employee_group_hrm/?results_per_page=10000&types=Group"  # Endpoint for getting sequence configurations
+
+        headers_data = headers.get_headers()  # Assuming this returns necessary headers
+
+        def make_get_request(i):
+            try:
+                response = requests.get(url, headers=headers_data)
+                print(f"Request {i + 1} - Status Code: {response.status_code}")
+                return response.status_code
+            except requests.RequestException as e:
+                print(f"Request {i + 1} - Exception: {e}")
+                return None
+
+        # Start the concurrent execution
+        start_time = time.time()
+        with ThreadPoolExecutor(max_workers=num_threads) as executor:
+            futures = [executor.submit(make_get_request, i) for i in range(num_requests)]
+            for future in futures:
+                future.result()
+        end_time = time.time()
+
+        # Print final summary
+        print(f"\n[TEST COMPLETED] Total requests: {num_requests}, Threads: {num_threads}")
+        print(f"Total Time Taken: {end_time - start_time:.2f} seconds")
