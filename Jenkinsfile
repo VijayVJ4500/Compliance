@@ -33,6 +33,7 @@ pipeline {
                  bat '''
                  venv\\Scripts\\python.exe -m pytest hrm_automation\\all_tests.py --html=Reports\\report.html --self-contained-html --alluredir=allure-results
                  '''
+                }
 
 
             }
