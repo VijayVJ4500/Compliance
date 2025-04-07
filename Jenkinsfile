@@ -33,7 +33,7 @@ pipeline {
             }
         }
         post {
-        always {
+          always {
             // Publish HTML Report
             publishHTML([
                 allowMissing: false,
@@ -50,9 +50,10 @@ pipeline {
                 jdk: '',
                 results: [[path: 'allure-results']]
             ])
+          }
         }
     
-
+    }
     //    stage('Publish Report') {
     //          steps {
     //              publishHTML([
@@ -66,5 +67,4 @@ pipeline {
     //         }
     //     }
 
-    }
 }
