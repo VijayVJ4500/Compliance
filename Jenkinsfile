@@ -29,14 +29,18 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                withEnv(["PYTHONPATH=src"]) {
-                    bat '''
-                        call venv\\Scripts\\activate
-                        pytest --html=Reports/report.html --self-contained-html --alluredir=allure-results
-                    '''
-                }
+               script {
+                 bat 'mkdir Reports'
+               }
+               withEnv(["PYTHONPATH=src"]) {
+               bat '''
+                call venv\\Scripts\\activate
+                pytest --html=Reports/report.html --self-contained-html --alluredir=allure-results
+             '''
+              }
             }
         }
+
     }
 
     post {
