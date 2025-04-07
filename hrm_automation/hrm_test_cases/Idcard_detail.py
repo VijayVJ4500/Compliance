@@ -3,6 +3,7 @@ import unittest
 from hrm_automation.base import BasePage
 from hrm_automation.locators import Locators
 import logging
+from logger_file import logger
 import hrm_automation.logger_file
 
 # # Configure logger
