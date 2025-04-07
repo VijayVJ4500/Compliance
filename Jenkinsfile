@@ -32,17 +32,18 @@ pipeline {
             }
         }
 
-        stage('Publish Report') {
-            steps {
-                publishHTML([
-                    reportDir: '.',
-                    reportFiles: 'report.html',
-                    reportName: 'Test Report',
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true
+       stage('Publish Report') {
+             steps {
+                 publishHTML([
+                       reportDir: '.',                 // Location of report.html
+                       reportFiles: 'report.html',    // The HTML file name
+                       reportName: 'Test Report',     // Display name in Jenkins UI
+                       keepAll: true,                 // Keep reports for all builds
+                       alwaysLinkToLastBuild: true,   // Link report to latest build
+                       allowMissing: false            // Fail if report is missing
                 ])
             }
         }
+
     }
 }
