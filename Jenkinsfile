@@ -26,7 +26,9 @@ pipeline {
 
         stage('Run Tests') {
             steps {
+                withEnv(["PYTHONPATH=src"]) {
                 bat '.\\venv\\Scripts\\activate && pytest --html=report.html --self-contained-html'
+            }
             }
         }
 
