@@ -20,20 +20,27 @@ pipeline {
 
         stage('Install Requirements') {
             steps {
-                bat '.\\venv\\Scripts\\activate && pip install -r requirements.txt'
+                bat '''
+                    call venv\\Scripts\\activate
+                    pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Run Tests') {
             steps {
                 withEnv(["PYTHONPATH=src"]) {
-                bat '.\\venv\\Scripts\\activate && pytest --html=report.html --self-contained-html'
-                
-            }
+                    bat '''
+                        call venv\\Scripts\\activate
+                        pytest --html=Reports/report.html --self-contained-html --alluredir=allure-results
+                    '''
+                }
             }
         }
-        post {
-          always {
+    }
+
+    post {
+        always {
             // Publish HTML Report
             publishHTML([
                 allowMissing: false,
@@ -50,21 +57,6 @@ pipeline {
                 jdk: '',
                 results: [[path: 'allure-results']]
             ])
-          }
         }
-    
     }
-    //    stage('Publish Report') {
-    //          steps {
-    //              publishHTML([
-    //                    reportDir: '.',          // Location of report.html
-    //                    reportFiles: 'report.html',    // The HTML file name
-    //                    reportName: 'Test Report',     // Display name in Jenkins UI
-    //                    keepAll: true,                 // Keep reports for all builds
-    //                    alwaysLinkToLastBuild: true,   // Link report to latest build
-    //                    allowMissing: false            // Fail if report is missing
-    //             ])
-    //         }
-    //     }
-
 }
