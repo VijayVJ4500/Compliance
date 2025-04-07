@@ -30,8 +30,9 @@ pipeline {
         stage('Run all_tests.py and Generate Reports') {
             steps {
                  bat '''
-                 venv\\Scripts\\activate && venv\\Scripts\\python.exe all_tests.py
+                 venv\\Scripts\\python.exe -m pytest hrm_automation\\tests\\all_tests.py --html=Reports\\report.html --self-contained-html --alluredir=allure-results
                  '''
+
 
             }
         }
