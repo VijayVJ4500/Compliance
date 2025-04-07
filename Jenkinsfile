@@ -2,34 +2,55 @@ pipeline {
     agent any
 
     environment {
-        PYTHON = "C:\\Program Files\\Python311\\python.exe" // 👈 Update this path
+        PYTHON = 'C:\\Users\\vijay\\AppData\\Local\\Programs\\Python\\Python312\\python.exe'
     }
 
     stages {
-        stage('Create Virtual Env') {
+        stage('Check Python') {
             steps {
-                bat "${PYTHON} -m venv venv"
-                bat ".\\venv\\Scripts\\pip install -r requirements.txt"
+                bat '"%PYTHON%" --version'
+            }
+        }
+
+        stage('Create Virtualenv') {
+            steps {
+                bat '"%PYTHON%" -m venv venv'
+            }
+        }
+
+        stage('Install Requirements') {
+            steps {
+                bat '.\\venv\\Scripts\\activate && pip install -r requirements.txt && pip install allure-pytest pytest-html'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat ".\\venv\\Scripts\\pytest tests\\ --html=report.html"
+                withEnv(["PYTHONPATH=CM_testcase"]) {
+                    bat 'call .\\venv\\Scripts\\activate && pytest CM_testcase --html=Reports/report.html --self-contained-html --alluredir=allure-results'
+                }
             }
         }
+    }
 
-        stage('Publish Report') {
-            steps {
-                publishHTML (target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: '.',
-                    reportFiles: 'report.html',
-                    reportName: "Test Report"
-                ])
-            }
+    post {
+        always {
+            // Publish HTML Report
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'Reports',
+                reportFiles: 'report.html',
+                reportName: 'HTML Report'
+            ])
+
+            // Publish Allure Report
+            allure([
+                includeProperties: false,
+                jdk: '',
+                results: [[path: 'allure-results']]
+            ])
         }
     }
 }
