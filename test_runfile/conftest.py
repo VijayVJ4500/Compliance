@@ -61,3 +61,6 @@ def setup(request):
 
     driver.close()
     driver.quit()
+
+    print("Config file loaded from: ./settings.conf")
+    print("Sections found:", config.sections())
