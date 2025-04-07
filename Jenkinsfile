@@ -25,8 +25,8 @@ pipeline {
         }
         stage('Prepare') {
           steps {
-             bat 'copy config.ini test_runfile\\settings.conf'
-          }
+           bat 'copy settings.conf test_runfile\\settings.conf'
+           }
         }
 
 
