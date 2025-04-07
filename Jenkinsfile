@@ -23,21 +23,25 @@ pipeline {
                 bat '.\\venv\\Scripts\\activate && pip install -r requirements.txt && pip install allure-pytest pytest-html'
             }
         }
-        stage('Prepare') {
-          steps {
-           bat 'copy settings.conf test_runfile\\settings.conf'
-           }
-        }
-
+       
 
         stage('Run Tests') {
             steps {
                 withEnv(["PYTHONPATH=test_runfile"]) {
-                    bat 'call .\\venv\\Scripts\\activate && pytest test_runfile\\test_end_to_end.py --html=Reports/report.html --self-contained-html --alluredir=allure-results'
-                }
+                bat 'call .\\venv\\Scripts\\activate && pytest test_runfile --html=Reports/report.html --self-contained-html --alluredir=allure-results'
+              }
             }
         }
-    }
+
+
+    //     stage('Run Tests') {
+    //         steps {
+    //             withEnv(["PYTHONPATH=test_runfile"]) {
+    //                 bat 'call .\\venv\\Scripts\\activate && pytest test_runfile\\test_end_to_end.py --html=Reports/report.html --self-contained-html --alluredir=allure-results'
+    //             }
+    //         }
+    //     }
+    // }
 
     post {
         always {
