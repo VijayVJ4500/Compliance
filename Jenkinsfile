@@ -2,20 +2,20 @@ pipeline {
     agent any
 
     environment {
-        VENV = "venv"
+        PYTHON = "C:\\Users\\Vijay\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
     }
 
     stages {
         stage('Create Virtual Env') {
             steps {
-                bat 'python -m venv venv'
-                bat '.\\venv\\Scripts\\pip install -r requirements.txt'
+                bat "${PYTHON} -m venv venv"
+                bat ".\\venv\\Scripts\\pip install -r requirements.txt"
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat '.\\venv\\Scripts\\pytest tests\\ --html=report.html'
+                bat ".\\venv\\Scripts\\pytest tests\\ --html=report.html"
             }
         }
 
