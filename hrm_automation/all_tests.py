@@ -210,3 +210,14 @@ if __name__ == "__main__":
     test_suite.addTest(AllTests('test_b_config'))
     # test_suite.addTest(Alltest2('test_c_config'))
     unittest.TextTestRunner().run(test_suite)
+    pytest.main([
+        "--html=Reports/report.html",
+        "--self-contained-html",
+        "--alluredir=allure-results",
+        "hrm_automation/tests"
+    ])
+    import pytest
+
+
+   
+
