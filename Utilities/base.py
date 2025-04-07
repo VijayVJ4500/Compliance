@@ -13,27 +13,27 @@ class Basepage():
         self.driver = driver
 
     def click(self, by_locator):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).click()
+        WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(by_locator)).click()
 
     def assert_element_text(self, by_locator, element_text):
-        web_element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
+        web_element = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(by_locator))
         assert web_element.text == element_text
 
     def enter_text(self, by_locator, text):
-        return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
+        return WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
 
     def is_enabled(self, by_locator):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).is_enable()
+        WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(by_locator)).is_enable()
 
     def is_visible(self, by_locator):
-        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
+        element = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(by_locator))
         return bool(element)
 
     def send_keys(self, by_locator, text):
-        return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
+        return WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
 
     def to_hover(self, by_locator):
-        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
+        element = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(by_locator))
         ActionChains(self.driver).move_to_element(element).perform()
 
     def is_element_present(self, by_locator):
