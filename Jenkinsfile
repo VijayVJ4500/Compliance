@@ -31,7 +31,8 @@ pipeline {
             steps {
                  bat '''
                  venv\\Scripts\\activate && venv\\Scripts\\python.exe all_tests.py
-                '''
+                 '''
+
             }
         }
     }
