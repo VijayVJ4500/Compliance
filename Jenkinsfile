@@ -1,33 +1,27 @@
 pipeline {
     agent any
 
-    tools {
-        python 'Python3.10'
+    environment {
+        VENV_DIR = 'venv'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-org/python-automation-project.git'
+                git 'https://github.com/VijayVJ4500/Compliance'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Setup Virtualenv and Install') {
             steps {
-                sh '''
-                python -m venv venv
-                source venv/bin/activate
-                pip install -r requirements.txt
-                '''
+                bat 'python -m venv %VENV_DIR%'
+                bat '%VENV_DIR%\\Scripts\\activate && pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '''
-                source venv/bin/activate
-                pytest
-                '''
+                bat '%VENV_DIR%\\Scripts\\activate && pytest --html=report.html --self-contained-html'
             }
         }
 
@@ -42,6 +36,12 @@ pipeline {
                     keepAll: true
                 ])
             }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
         }
     }
 }
