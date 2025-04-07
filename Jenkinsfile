@@ -23,6 +23,12 @@ pipeline {
                 bat '.\\venv\\Scripts\\activate && pip install -r requirements.txt && pip install allure-pytest pytest-html'
             }
         }
+        stage('Prepare') {
+          steps {
+             bat 'copy config.ini test_runfile\\config.ini'
+          }
+        }
+
 
         stage('Run Tests') {
             steps {
