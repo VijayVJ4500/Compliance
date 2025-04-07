@@ -1,5 +1,8 @@
 import pytest
-from src.calculator import Calculator
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+from calculator import Calculator
 
 @pytest.fixture
 def calc():
