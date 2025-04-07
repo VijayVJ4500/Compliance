@@ -1,4 +1,5 @@
 import unittest
+import pytest
 from hrm_automation.test_base import TestBase
 from hrm_automation.hrm_test_cases.Idcard_detail import Idcard
 from hrm_automation.hrm_test_cases.Import_biometrics import biometrics
@@ -216,7 +217,7 @@ if __name__ == "__main__":
         "--alluredir=allure-results",
         "hrm_automation/tests"
     ])
-    import pytest
+
 
 
    
