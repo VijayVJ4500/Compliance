@@ -26,8 +26,8 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                withEnv(["PYTHONPATH=CM_testcase"]) {
-                    bat 'call .\\venv\\Scripts\\activate && pytest CM_testcase --html=Reports/report.html --self-contained-html --alluredir=allure-results'
+                withEnv(["PYTHONPATH=test_runfile"]) {
+                    bat 'call .\\venv\\Scripts\\activate && pytest test_runfile\\test_end_to_end.py --html=Reports/report.html --self-contained-html --alluredir=allure-results'
                 }
             }
         }
