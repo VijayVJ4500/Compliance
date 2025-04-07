@@ -1,5 +1,10 @@
 import pytest
 import configparser
+import os
+config = configparser.ConfigParser()
+config_path = os.path.abspath("settings.conf")
+config.read(config_path)
+
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -61,6 +66,3 @@ def setup(request):
 
     driver.close()
     driver.quit()
-
-    print("Config file loaded from: ./settings.conf")
-    print("Sections found:", config.sections())
