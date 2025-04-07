@@ -35,7 +35,7 @@ pipeline {
        stage('Publish Report') {
              steps {
                  publishHTML([
-                       reportDir: '.',                 // Location of report.html
+                       reportDir: 'Reports',          // Location of report.html
                        reportFiles: 'report.html',    // The HTML file name
                        reportName: 'Test Report',     // Display name in Jenkins UI
                        keepAll: true,                 // Keep reports for all builds
